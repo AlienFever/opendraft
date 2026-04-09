@@ -682,7 +682,12 @@ def generate_draft(
                         ctx.citation_database = load_citation_database(bibliography_path)
                         logger.info(f"Restored citation database: {len(ctx.citation_database.citations)} citations")
                     except Exception as e:
-                        logger.warning(f"Could not load bibliography.json, continuing without it: {e}")
+                        raise RuntimeError(
+                            f"bibliography.json exists but could not be loaded during resume "
+                            f"(completed phase: {completed_phase}). "
+                            f"The file may be corrupted. Fix or delete it and retry. "
+                            f"Original error: {e}"
+                        ) from e
 
             if verbose:
                 print(f"   Resumed from checkpoint (completed: {completed_phase})")
