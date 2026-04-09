@@ -667,13 +667,22 @@ def generate_draft(
 
             restore_context(ctx, checkpoint_data)
 
+            # Reload scout_output from disk to avoid using truncated checkpoint version
+            scout_raw_path = ctx.folders['research'] / "scout_raw.md"
+            if scout_raw_path.exists():
+                ctx.scout_output = scout_raw_path.read_text(encoding='utf-8')
+                logger.info(f"Reloaded scout_output from disk: {len(ctx.scout_output)} chars")
+
             # Reload citation database if citations phase was completed
             if completed_phase in ["citations", "compose", "validate", "compile"]:
                 from utils.citation_database import load_citation_database
                 bibliography_path = ctx.folders['research'] / "bibliography.json"
                 if bibliography_path.exists():
-                    ctx.citation_database = load_citation_database(bibliography_path)
-                    logger.info(f"Restored citation database: {len(ctx.citation_database.citations)} citations")
+                    try:
+                        ctx.citation_database = load_citation_database(bibliography_path)
+                        logger.info(f"Restored citation database: {len(ctx.citation_database.citations)} citations")
+                    except Exception as e:
+                        logger.warning(f"Could not load bibliography.json, continuing without it: {e}")
 
             if verbose:
                 print(f"   Resumed from checkpoint (completed: {completed_phase})")
