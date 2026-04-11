@@ -377,6 +377,26 @@ generated_by: "OpenDraft AI - https://github.com/federicodeponte/opendraft"
 
     final_draft = abstract_updated_content if abstract_success and abstract_updated_content else compiled_draft
 
+    # Generate scholarly title
+    from utils.titlemaker import generate_paper_title
+    if ctx.verbose:
+        print("\n\U0001f4cc Generating scholarly title...")
+    if ctx.tracker:
+        ctx.tracker.log_activity("\U0001f4cc Generating scholarly title...", event_type="info", phase="compiling")
+    ctx.paper_title = generate_paper_title(ctx, run_agent)
+    if ctx.tracker:
+        ctx.tracker.log_activity("\u2705 Scholarly title generated", event_type="found", phase="compiling")
+
+    # Replace title in YAML frontmatter with the generated scholarly title
+    scholarly_title = ctx.paper_title or ctx.topic
+    # Escape any double quotes in the title for YAML safety
+    scholarly_title_escaped = scholarly_title.replace('"', '\\"')
+    final_draft = final_draft.replace(
+        f'title: "{ctx.topic}"',
+        f'title: "{scholarly_title_escaped}"',
+        1,
+    )
+
     # Generate filename
     base_filename = slugify(ctx.topic, max_length=50)
     if not base_filename:
