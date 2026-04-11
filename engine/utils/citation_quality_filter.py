@@ -5,15 +5,234 @@ ABOUTME: Uses enhanced citation validator to filter out invalid/junk citations b
 """
 
 import json
+import logging
+import os
+import re
 import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Set, Tuple
 
 # Add parent directory to path for imports
 if __name__ == '__main__':
     sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from utils.citation_validator import CitationValidator, ValidationIssue
+
+# Minimum topical relevance score for a citation to be kept.
+# Configurable via CITATION_RELEVANCE_THRESHOLD env var (float 0.0–1.0).
+# Default 0.30 — the stop-word list now excludes generic academic noise
+# ("approaches", "methodologies", "models", etc.) so the remaining keywords
+# are truly discriminating, making 0.30 effectively much stricter than before.
+_RELEVANCE_THRESHOLD = float(os.environ.get("CITATION_RELEVANCE_THRESHOLD", "0.30"))
+
+logger = logging.getLogger(__name__)
+
+# Common stop words to exclude from topic keyword extraction
+_STOP_WORDS = frozenset({
+    "a", "an", "the", "and", "or", "but", "in", "on", "at", "to", "for",
+    "of", "with", "by", "from", "is", "are", "was", "were", "be", "been",
+    "being", "have", "has", "had", "do", "does", "did", "will", "would",
+    "could", "should", "may", "might", "can", "shall", "its", "it", "this",
+    "that", "these", "those", "how", "what", "which", "who", "whom", "when",
+    "where", "why", "not", "no", "nor", "so", "if", "then", "than", "too",
+    "very", "just", "about", "above", "after", "again", "all", "also", "any",
+    "as", "between", "both", "each", "few", "more", "most", "other", "over",
+    "same", "some", "such", "through", "under", "up", "out", "into", "using",
+    "based", "via", "across", "among", "during", "within", "without",
+    "research", "study", "analysis", "review", "paper", "approach", "new",
+    "role", "impact", "effect", "effects", "use", "case", "toward", "towards",
+    # Generic academic phrasing that adds noise without being discriminating.
+    # Only include words that are unlikely to be the primary discriminating
+    # keyword for any real research topic (section headings, meta-language, etc.)
+    "approaches", "methodologies", "methodology", "including", "current",
+    "solving", "overview", "introduction", "discussion", "implications",
+    "findings", "conclusion", "conclusions", "importance", "comparison",
+    "recent", "existing", "proposed", "novel", "improved", "enhanced",
+    "advanced", "multiple", "various", "different", "specific", "given",
+    "related", "relevant",
+})
+
+# Synonym clusters for academic domain matching.
+# Each cluster groups terms that are interchangeable in academic context.
+# When a topic keyword matches any term in a cluster, ALL terms in that cluster
+# are used for matching against citation text.
+_SYNONYM_CLUSTERS: List[frozenset] = [
+    # LLM / Language Models (specific — gpt, llama, etc.)
+    # Separate from general AI so "AI Management Standard" topics don't match LLM-specific queries.
+    frozenset({"llm", "large language model", "large language models",
+               "language model", "language models",
+               "gpt", "gpt-4", "gpt-3", "gpt4", "gpt3", "gpt-3.5", "chatgpt",
+               "claude", "gemini", "llama", "mistral", "falcon", "palm",
+               "bert", "t5", "bart", "roberta", "foundation model", "foundation models",
+               "instruction-tuned", "instruction tuning", "fine-tuned language model",
+               "pretrained language model", "autoregressive model"}),
+    # General AI / ML (broader — ai, ml, deep learning, reinforcement learning)
+    frozenset({"ai", "artificial intelligence", "machine learning", "ml", "deep learning",
+               "neural network", "neural networks", "computer vision", "nlp",
+               "natural language processing", "reinforcement learning",
+               "transformer", "transformers", "generative ai", "gen ai"}),
+    # Reward / RLHF (for reward-model topics)
+    # NOTE: "verify"/"verification" intentionally excluded — too generic (auth, QA, crypto).
+    # "step by step" excluded — too generic (tutorials, guides, any how-to content).
+    frozenset({"reward", "reward model", "reward models", "reward signal", "reward function",
+               "rlhf", "reinforcement learning from human feedback",
+               "preference learning", "preference optimization",
+               "dpo", "ppo", "proximal policy optimization",
+               "scorer", "scoring", "human feedback", "process reward",
+               "outcome reward", "critic model", "preference data",
+               "reward shaping", "reward modeling"}),
+    # Reasoning / Chain-of-Thought (for reasoning-focused topics)
+    # NOTE: "step by step" and "step-by-step" excluded — too generic (tutorials, KYC guides, etc.)
+    # NOTE: "inference" excluded — polysemous (ML inference != logical inference != reasoning)
+    frozenset({"reasoning", "chain of thought", "chain-of-thought", "cot",
+               "multi-step reasoning", "logical reasoning", "mathematical reasoning",
+               "commonsense reasoning", "commonsense", "common sense",
+               "deduction", "deductive", "induction", "inductive",
+               "problem solving", "problem-solving", "planning",
+               "tree of thought", "tree-of-thought", "tot",
+               "self-consistency", "rationale", "rationales"}),
+    # Healthcare / Medicine
+    frozenset({"healthcare", "health care", "medical", "medicine", "clinical",
+               "biomedical", "health", "patient", "patients", "diagnosis",
+               "therapeutic", "therapy", "treatment", "disease", "diseases",
+               "pathology", "epidemiology", "pharmaceutical", "pharmacology"}),
+    # Environment / Climate
+    frozenset({"environment", "environmental", "climate", "climate change",
+               "global warming", "sustainability", "sustainable", "ecology",
+               "ecological", "carbon", "emissions", "greenhouse",
+               "renewable energy", "green energy", "pollution"}),
+    # Education / Learning
+    frozenset({"education", "educational", "learning", "teaching", "pedagogy",
+               "pedagogical", "student", "students", "curriculum", "academic",
+               "classroom", "instruction", "instructional", "e-learning",
+               "elearning", "online learning"}),
+    # Security / Cyber
+    frozenset({"security", "cybersecurity", "cyber security", "infosec",
+               "information security", "encryption", "cryptography",
+               "vulnerability", "vulnerabilities", "malware", "threat",
+               "threats", "intrusion", "authentication", "privacy"}),
+    # Finance / Economics
+    frozenset({"finance", "financial", "economics", "economic", "banking",
+               "investment", "market", "markets", "monetary", "fiscal",
+               "stock", "trading", "fintech", "cryptocurrency", "blockchain"}),
+    # IoT / Embedded
+    frozenset({"iot", "internet of things", "embedded", "sensor", "sensors",
+               "smart device", "smart devices", "wearable", "wearables",
+               "edge computing", "fog computing", "mqtt", "microcontroller"}),
+    # Robotics / Automation
+    frozenset({"robot", "robots", "robotics", "automation", "autonomous",
+               "actuator", "manipulator", "drone", "drones", "uav"}),
+    # Data / Analytics
+    frozenset({"data", "big data", "data science", "analytics", "data mining",
+               "data analysis", "database", "databases", "data warehouse",
+               "visualization", "statistical", "statistics"}),
+    # Network / Communication
+    frozenset({"network", "networks", "networking", "wireless", "wifi",
+               "cellular", "5g", "telecommunications", "communication",
+               "protocol", "protocols", "bandwidth", "latency", "routing"}),
+    # Ethics / Bias
+    frozenset({"ethics", "ethical", "bias", "fairness", "accountability",
+               "transparency", "responsible", "discrimination", "equity",
+               "justice", "moral"}),
+    # Cloud / Infrastructure
+    frozenset({"cloud", "cloud computing", "saas", "paas", "iaas",
+               "serverless", "microservices", "containerization", "docker",
+               "kubernetes", "devops", "infrastructure"}),
+    # Integrity / Fraud
+    frozenset({"integrity", "fraud", "forgery", "counterfeit", "falsification",
+               "plagiarism", "misconduct", "fabrication", "deception",
+               "authenticity", "verification", "detection"}),
+    # Energy / Power
+    frozenset({"energy", "power", "solar", "wind", "battery", "batteries",
+               "photovoltaic", "grid", "electricity", "renewable",
+               "nuclear", "fossil fuel", "geothermal"}),
+    # Psychology / Mental Health
+    frozenset({"psychology", "psychological", "mental health", "cognitive",
+               "cognition", "behavior", "behaviour", "behavioral",
+               "behavioural", "anxiety", "depression", "stress",
+               "well-being", "wellbeing", "neuroscience"}),
+    # Agriculture / Food
+    frozenset({"agriculture", "agricultural", "farming", "crop", "crops",
+               "soil", "irrigation", "livestock", "food security",
+               "agronomy", "horticulture", "precision agriculture"}),
+    # Sleep / Circadian
+    frozenset({"sleep", "insomnia", "circadian", "melatonin", "polysomnography",
+               "sleep quality", "sleep disorder", "sleep disorders", "rem",
+               "sleep deprivation", "somnolence", "narcolepsy"}),
+    # Performance / Productivity
+    frozenset({"performance", "productivity", "achievement", "outcome", "outcomes",
+               "efficiency", "effectiveness", "competence", "proficiency",
+               "academic performance", "grade", "grades", "gpa"}),
+    # Social Media / Digital
+    frozenset({"social media", "facebook", "twitter", "instagram", "tiktok",
+               "digital", "online", "internet", "platform", "platforms",
+               "social network", "social networks", "influencer", "viral"}),
+    # Business / Management
+    frozenset({"business", "management", "organization", "organizational",
+               "leadership", "corporate", "enterprise", "strategy", "strategic",
+               "governance", "stakeholder", "stakeholders", "supply chain"}),
+    # Transportation / Mobility
+    frozenset({"transport", "transportation", "mobility", "traffic", "vehicle",
+               "vehicles", "autonomous driving", "self-driving", "logistics",
+               "rail", "aviation", "urban mobility"}),
+]
+
+# Build lookup: single keyword -> set of all synonyms in its cluster
+_SYNONYM_LOOKUP: Dict[str, frozenset] = {}
+for _cluster in _SYNONYM_CLUSTERS:
+    for _term in _cluster:
+        _SYNONYM_LOOKUP[_term] = _cluster
+
+
+def _expand_with_synonyms(keywords: Set[str]) -> Set[str]:
+    """Expand keywords with synonyms from known academic clusters."""
+    expanded = set(keywords)
+    for kw in keywords:
+        if kw in _SYNONYM_LOOKUP:
+            expanded.update(_SYNONYM_LOOKUP[kw])
+    return expanded
+
+
+def _extract_topic_keywords(topic: str) -> Set[str]:
+    """Extract meaningful keywords from the paper topic."""
+    words = re.findall(r'[a-z]{2,}', topic.lower())
+    return {w for w in words if w not in _STOP_WORDS}
+
+
+def _compute_relevance_score(topic_keywords: Set[str], title: str, abstract: str) -> float:
+    """
+    Compute topical relevance score (0.0 to 1.0) based on keyword overlap.
+
+    Expands keywords with synonyms so "AI" matches "machine learning",
+    "healthcare" matches "medical", etc.
+
+    Title matches are weighted at 1.0, abstract-only matches at 0.5,
+    so citations whose titles mention the topic rank higher.
+    """
+    if not topic_keywords:
+        return 1.0  # No keywords to check against, assume relevant
+    title_lower = title.lower()
+    abstract_lower = abstract.lower()
+
+    score = 0.0
+    max_score = len(topic_keywords)
+    for kw in topic_keywords:
+        # Title match is worth 1.0, abstract-only match is worth 0.5
+        if kw in title_lower:
+            score += 1.0
+            continue
+        cluster = _SYNONYM_LOOKUP.get(kw)
+        if cluster and any(syn in title_lower for syn in cluster):
+            score += 1.0
+            continue
+        # Fallback to abstract match (half weight)
+        if kw in abstract_lower:
+            score += 0.5
+            continue
+        if cluster and any(syn in abstract_lower for syn in cluster):
+            score += 0.5
+
+    return score / max_score
 
 
 class CitationQualityFilter:
@@ -65,7 +284,8 @@ class CitationQualityFilter:
     def filter_database(
         self,
         database_path: Path,
-        output_path: Path = None
+        output_path: Path = None,
+        topic: Optional[str] = None,
     ) -> Dict:
         """
         Filter low-quality citations from database.
@@ -73,6 +293,7 @@ class CitationQualityFilter:
         Args:
             database_path: Path to citation_database.json
             output_path: Path to save filtered database (default: same as input)
+            topic: Paper topic string for topical relevance filtering
 
         Returns:
             Dict with filtering statistics
@@ -82,8 +303,7 @@ class CitationQualityFilter:
             try:
                 data = json.load(f)
             except json.JSONDecodeError as e:
-                import logging
-                logging.getLogger(__name__).warning(f"Invalid JSON in {database_path}: {e}")
+                logger.warning(f"Invalid JSON in {database_path}: {e}")
                 return {
                     'total_original': 0, 'total_filtered': 0,
                     'total_removed': 0, 'removal_reasons': {},
@@ -122,6 +342,40 @@ class CitationQualityFilter:
                     filter_stats['removal_reasons'].get(issue_type, 0) + 1
             else:
                 filtered_citations.append(citation)
+
+        # Topical relevance filtering: remove citations with zero keyword overlap
+        # Only apply when topic has enough keywords to be meaningful (2+)
+        if topic:
+            topic_keywords = _extract_topic_keywords(topic)
+            if len(topic_keywords) >= 2:
+                relevance_filtered = []
+                off_topic_count = 0
+                for citation in filtered_citations:
+                    title = citation.get('title', '')
+                    abstract = citation.get('abstract', '')
+                    score = _compute_relevance_score(topic_keywords, title, abstract)
+                    if score >= _RELEVANCE_THRESHOLD:
+                        relevance_filtered.append(citation)
+                    else:
+                        off_topic_count += 1
+                        removed_citations.append({
+                            'citation': citation,
+                            'reason': f'Low topical relevance (score={score:.2f}, threshold={_RELEVANCE_THRESHOLD:.2f})',
+                            'issues': 0,
+                        })
+                        filter_stats['total_removed'] += 1
+                        filter_stats['removal_reasons']['low_relevance'] = \
+                            filter_stats['removal_reasons'].get('low_relevance', 0) + 1
+                        logger.info(
+                            f"Filtered low-relevance citation: {citation.get('title', '')[:80]} "
+                            f"(relevance={score:.2f})"
+                        )
+                if off_topic_count:
+                    logger.info(
+                        f"Topical filter: removed {off_topic_count} off-topic citations "
+                        f"(threshold={_RELEVANCE_THRESHOLD:.2f}, kept={len(relevance_filtered)})"
+                    )
+                filtered_citations = relevance_filtered
 
         filter_stats['total_filtered'] = len(filtered_citations)
 

@@ -66,7 +66,7 @@ def run_citation_management(ctx: DraftContext) -> None:
 
     # Quality filtering (auto-fix mode for automated runs)
     filter_obj = CitationQualityFilter(strict_mode=False)
-    filter_obj.filter_database(citation_db_path, citation_db_path)
+    filter_obj.filter_database(citation_db_path, citation_db_path, topic=ctx.topic)
 
     # Reload filtered database
     ctx.citation_database = load_citation_database(citation_db_path)
