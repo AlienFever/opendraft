@@ -288,6 +288,12 @@ def run_compile_and_export(ctx: DraftContext) -> Tuple[Path, Path]:
     yaml_location = ctx.location or "Munich"
     yaml_student_id = ctx.student_id or "N/A"
 
+    # Only include appendices section if there's actual content
+    if appendix_clean.strip():
+        appendices_block = f"# 4. Appendices\n{appendix_clean}\n\n\\newpage\n\n# 5. References"
+    else:
+        appendices_block = "# 4. References"
+
     full_draft = f"""---
 title: "{ctx.topic}"
 author: "{yaml_author}"
@@ -326,12 +332,7 @@ generated_by: "OpenDraft AI - https://github.com/federicodeponte/opendraft"
 
 \\newpage
 
-# 4. Appendices
-{appendix_clean}
-
-\\newpage
-
-# 5. References
+{appendices_block}
 [Citations will be compiled]
 """
 
