@@ -18,7 +18,10 @@
 </p>
 
 <p align="center">
-  <img src="assets/demo.gif" alt="OpenDraft CLI demo — generating a master's thesis in real time" width="900">
+  <video width="900" autoplay loop muted playsinline>
+    <source src="assets/demo.mp4" type="video/mp4">
+    <source src="assets/demo.webm" type="video/webm">
+  </video>
 </p>
 
 ---
