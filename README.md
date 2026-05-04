@@ -1,25 +1,72 @@
-# OpenDraft - Open Source AI Research Draft Generator
-
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.10+](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![Open Source](https://img.shields.io/badge/Open%20Source-100%25-brightgreen.svg)](https://github.com/federicodeponte/opendraft)
-[![GitHub stars](https://img.shields.io/github/stars/federicodeponte/opendraft?style=social)](https://github.com/federicodeponte/opendraft)
-
-> Generate research drafts with citations verified against 250M+ academic papers. OpenDraft is a free, open-source Python engine for thesis-level research drafts.
+<h1 align="center">OpenDraft — AI Research Draft Generator</h1>
 
 <p align="center">
-  <a href="https://opendraft.xyz/waitlist"><strong>Try Hosted Version (Coming Soon) →</strong></a>
+  <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
+  <img src="https://img.shields.io/badge/Python-3.10+-blue.svg" alt="Python 3.10+">
+  <img src="https://img.shields.io/badge/Open%20Source-100%25-brightgreen.svg" alt="Open Source">
+  <img src="https://img.shields.io/github/stars/federicodeponte/opendraft?style=social" alt="GitHub stars">
 </p>
+
+<p align="center">
+  <b>Free, open-source AI engine that generates thesis-level research drafts with <em>verified</em> citations.</b><br>
+  19 specialized agents · 500M+ academic sources · PDF/DOCX/LaTeX export
+</p>
+
+<p align="center">
+  <a href="https://openpaper.dev"><strong>🚀 Try the free hosted version on OpenPaper.dev →</strong></a><br>
+  <sub>3 free papers per day · No credit card required</sub>
+</p>
+
+<p align="center">
+  <img src="assets/demo.gif" alt="OpenDraft CLI demo — generating a master's thesis in real time" width="900">
+</p>
+
+---
+
+## Table of Contents
+
+- [What is OpenDraft?](#what-is-opendraft)
+- [Try it free — no installation](#try-it-free--no-installation)
+- [Why OpenDraft Exists](#why-opendraft-exists)
+- [What OpenDraft is NOT](#what-opendraft-is-not)
+- [OpenDraft vs ChatGPT](#opendraft-vs-chatgpt)
+- [How It Works](#how-it-works)
+- [Features](#features)
+- [Quick Start](#quick-start)
+- [Which AI Model Should I Use?](#which-ai-model-should-i-use)
+- [Example Output](#example-output)
+- [FAQ](#faq)
+- [Alternatives Comparison](#alternatives-comparison-2025)
+- [Tech Stack](#tech-stack)
+- [Contributing](#contributing)
+- [Links](#links)
 
 ---
 
 ## What is OpenDraft?
 
-**OpenDraft is a Python-based AI engine that generates thesis-level research drafts.** Unlike ChatGPT, it uses 19 specialized AI agents working together and verifies every citation against real academic databases.
+**OpenDraft is a Python-based AI engine that generates thesis-level research drafts.** Unlike ChatGPT, it uses 19 specialized AI agents working together and verifies every citation against real academic databases (CrossRef, OpenAlex, Semantic Scholar, arXiv).
 
 - **Best for:** Researchers drafting literature reviews, research papers, and academic documents
 - **Price:** 100% free and open source (MIT license)
 - **Setup time:** 10 minutes
+- **SaaS version:** [OpenPaper.dev](https://openpaper.dev) — run it in your browser, 3 free papers/day
+
+---
+
+## Try it free — no installation
+
+Not ready to self-host? **OpenPaper.dev** is the free, hosted version of OpenDraft:
+
+- ✅ **3 research papers per day** on the free plan
+- ✅ Access to **500M+ academic sources**
+- ✅ **PDF + DOCX export**
+- ✅ No credit card required
+- ✅ Upgrade to Pro ($9/mo) or Max ($25/mo) for more daily credits
+
+<p align="center">
+  <a href="https://openpaper.dev"><img src="https://img.shields.io/badge/Try%20Free%20on-OpenPaper.dev-6366f1?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Try OpenPaper.dev for free"></a>
+</p>
 
 ---
 
@@ -54,11 +101,12 @@ It is a research assistance and drafting tool, not an autonomous author.
 |----------|---------|-----------|
 | Does it hallucinate citations? | Yes (often) | **Verified against real databases** |
 | Can it write 20,000+ words? | No (hits limits) | **Yes** |
-| Does it search real papers? | No | **Yes (250M+ papers)** |
+| Does it search real papers? | No | **Yes (500M+ papers)** |
 | Thesis structure? | Generic | **Academic chapters & sections** |
 | Export to PDF/Word? | No | **Yes** |
 | Free? | Limited | **100% free (self-host)** |
 | Open source? | No | **Yes (MIT license)** |
+| Hosted SaaS? | ChatGPT Plus $20/mo | **OpenPaper.dev — 3 free/day** |
 
 **Bottom line:** If you need an AI for academic writing with real citations, OpenDraft is a free, open-source alternative to ChatGPT.
 
@@ -69,7 +117,7 @@ It is a research assistance and drafting tool, not an autonomous author.
 OpenDraft uses **19 specialized AI agents** that work like a research team:
 
 ```
-📚 RESEARCH PHASE    → Finds relevant papers from 250M+ sources
+📚 RESEARCH PHASE    → Finds relevant papers from 500M+ sources
 🏗️ STRUCTURE PHASE   → Creates thesis outline with chapters
 ✍️ WRITING PHASE     → Drafts each section with academic tone
 🔍 CITATION PHASE    → Verifies every source exists (CrossRef, arXiv)
@@ -103,13 +151,10 @@ English, Spanish, German, French, Chinese, Japanese, Korean, Arabic, Portuguese,
 ### 100% Free and Open Source
 MIT license. Self-host with your own API keys. No subscriptions, no paywalls, no limits.
 
----
-
-## TL;DR and Digest Tools
-
+### TL;DR and Digest Tools
 OpenDraft includes two standalone tools for quickly understanding any research paper:
 
-### TL;DR: 5-Bullet Summary
+#### TL;DR: 5-Bullet Summary
 
 Generate a concise 5-bullet summary of any paper in seconds:
 
@@ -126,7 +171,7 @@ opendraft tldr paper.pdf -o summary.md
 
 Each bullet follows academic structure: thesis, key finding, method, implication, limitation.
 
-### Digest: 60-Second Audio Briefing
+#### Digest: 60-Second Audio Briefing
 
 Generate a podcast-style audio summary you can listen to:
 
@@ -366,6 +411,8 @@ opendraft/
 
 **Yes.** OpenDraft is 100% open source under the MIT license. Self-host with your own API keys. A typical thesis draft costs ~$0.35-$3 depending on the model.
 
+You can also use the free hosted version at **[OpenPaper.dev](https://openpaper.dev)** — 3 papers per day, no credit card required.
+
 ### Is this better than ChatGPT for academic writing?
 
 **For research drafts, yes.** ChatGPT often hallucinates citations. OpenDraft verifies every citation against CrossRef, OpenAlex, Semantic Scholar, and arXiv.
@@ -389,12 +436,12 @@ Most AI tools use a single model. OpenDraft uses **19 specialized agents**—one
 
 ## Alternatives Comparison (2025)
 
-| Tool | Price | Open Source | Verified Citations | Long Documents |
-|------|-------|-------------|-------------------|----------------|
-| **OpenDraft** | Free | ✅ Yes | ✅ Yes | ✅ Yes |
-| ChatGPT Plus | $20/mo | ❌ No | ❌ No | ❌ No |
-| Jasper | $49/mo | ❌ No | ❌ No | ✅ Yes |
-| Jenni AI | $20/mo | ❌ No | ⚠️ Partial | ✅ Yes |
+| Tool | Price | Open Source | Verified Citations | Long Documents | Hosted Free Tier |
+|------|-------|-------------|-------------------|----------------|------------------|
+| **OpenDraft** | Free | ✅ Yes | ✅ Yes | ✅ Yes | ✅ OpenPaper.dev (3/day) |
+| ChatGPT Plus | $20/mo | ❌ No | ❌ No | ❌ No | ❌ No |
+| Jasper | $49/mo | ❌ No | ❌ No | ✅ Yes | ❌ No |
+| Jenni AI | $20/mo | ❌ No | ⚠️ Partial | ✅ Yes | ❌ No |
 
 **OpenDraft is a free, open-source research draft generator with verified citations.**
 
@@ -428,7 +475,7 @@ Maintainer workflow docs:
 ## Links
 
 - 🌐 **Website:** [opendraft.xyz](https://opendraft.xyz)
-- 📝 **Hosted Version:** [Join Waitlist](https://opendraft.xyz/waitlist)
+- 🚀 **Free Hosted Version:** [OpenPaper.dev](https://openpaper.dev)
 - 💬 **Discussions:** [GitHub Discussions](https://github.com/federicodeponte/opendraft/discussions)
 - 🐛 **Issues:** [Report Bug](https://github.com/federicodeponte/opendraft/issues)
 - 🗒️ **Changelog:** [CHANGELOG.md](CHANGELOG.md)
@@ -440,7 +487,7 @@ Maintainer workflow docs:
 
 **OpenDraft** is a free, open-source Python engine for generating academic research drafts. It uses 19 specialized AI agents to create drafts with citations verified against real databases (CrossRef, OpenAlex, Semantic Scholar, arXiv).
 
-**Keywords:** AI thesis writer, AI research paper generator, ChatGPT alternative, free thesis generator, open source AI writing, multi-agent AI, verified citations, Python thesis generator, academic writing 2025
+**Keywords:** AI thesis writer, AI research paper generator, ChatGPT alternative, free thesis generator, open source AI writing, multi-agent AI, verified citations, Python thesis generator, academic writing 2025, literature review generator, dissertation helper, OpenPaper, free academic AI
 
 ---
 
