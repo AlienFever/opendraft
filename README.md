@@ -23,8 +23,26 @@
 
 ---
 
+## At a Glance
+
+| | |
+|:---|:---|
+| **What it is** | Open-source Python engine for AI-generated research drafts with verified citations |
+| **Best for** | Master's theses, PhD dissertations, literature reviews, research papers |
+| **Agents** | 19 specialized AI agents (research, structure, writing, citation, polish, export) |
+| **Sources** | 500M+ papers via CrossRef, OpenAlex, Semantic Scholar, arXiv |
+| **Languages** | 57+ languages including English, Spanish, German, French, Chinese, Japanese |
+| **Export** | PDF, Microsoft Word (.docx), LaTeX |
+| **Cost** | **Free** (self-hosted, MIT license) or **free tier** at [OpenPaper.dev](https://openpaper.dev) (3 papers/day) |
+| **Typical output** | 5–80+ pages, 10k–20k+ words, 30–50+ verified citations |
+| **Time to draft** | 10–20 minutes |
+| **API cost per draft** | ~$0.35 (Gemini Flash) to ~$3.00 (Claude Opus) |
+
+---
+
 ## Table of Contents
 
+- [At a Glance](#at-a-glance)
 - [What is OpenDraft?](#what-is-opendraft)
 - [Try it free — no installation](#try-it-free--no-installation)
 - [Why OpenDraft Exists](#why-opendraft-exists)
@@ -35,6 +53,7 @@
 - [Quick Start](#quick-start)
 - [Which AI Model Should I Use?](#which-ai-model-should-i-use)
 - [Example Output](#example-output)
+- [People Also Ask](#people-also-ask)
 - [FAQ](#faq)
 - [Alternatives Comparison](#alternatives-comparison-2025)
 - [Tech Stack](#tech-stack)
@@ -45,12 +64,16 @@
 
 ## What is OpenDraft?
 
-**OpenDraft is a Python-based AI engine that generates thesis-level research drafts.** Unlike ChatGPT, it uses 19 specialized AI agents working together and verifies every citation against real academic databases (CrossRef, OpenAlex, Semantic Scholar, arXiv).
+**OpenDraft is an open-source Python engine that generates thesis-level research drafts using 19 specialized AI agents.** It is designed for academic researchers who need long-form documents (10,000–20,000+ words) with citations verified against real databases.
 
-- **Best for:** Researchers drafting literature reviews, research papers, and academic documents
-- **Price:** 100% free and open source (MIT license)
-- **Setup time:** 10 minutes
-- **SaaS version:** [OpenPaper.dev](https://openpaper.dev) — run it in your browser, 3 free papers/day
+Unlike general-purpose chatbots such as ChatGPT, OpenDraft does not hallucinate citations. Every source is checked against CrossRef, OpenAlex, Semantic Scholar, and arXiv before being included in the bibliography.
+
+- **OpenDraft is** a command-line tool and Python library for drafting academic papers.
+- **OpenPaper is** the free hosted SaaS version of OpenDraft (3 papers per day, no credit card required).
+- **Best for:** Researchers drafting literature reviews, research papers, bachelor's theses, master's theses, and PhD dissertations.
+- **Price:** 100% free and open source (MIT license).
+- **Setup time:** 10 minutes for local installation.
+- **SaaS version:** [OpenPaper.dev](https://openpaper.dev) — run it in your browser, 3 free papers/day.
 
 ---
 
@@ -79,6 +102,22 @@ Academic research requires trust, sources, and accountability.
 OpenDraft explores a different approach: instead of a single general-purpose model, it uses multiple specialized agents, each responsible for a specific step in the research drafting process, grounded in real academic literature.
 
 We open-sourced OpenDraft so researchers can inspect, critique, and improve how these systems actually work.
+
+### What Problem Does OpenDraft Solve?
+
+1. **Hallucinated citations** — ChatGPT and similar LLMs invent citations 30–50% of the time. OpenDraft verifies every source.
+2. **Length limits** — Most AI tools cannot produce documents longer than a few thousand words. OpenDraft generates 20,000+ word theses.
+3. **Generic structure** — ChatGPT outputs lack proper academic chapter/section hierarchy. OpenDraft builds thesis-grade outlines.
+4. **No export options** — ChatGPT cannot export to PDF or Word with academic formatting. OpenDraft exports to PDF, DOCX, and LaTeX.
+5. **Closed source** — Most academic AI tools are black boxes. OpenDraft is fully open source under the MIT license.
+
+### Who Is OpenDraft For?
+
+- **Graduate students** writing a master's thesis or PhD dissertation who need a structured first draft.
+- **Undergraduate students** working on a bachelor's thesis or capstone project.
+- **Researchers** preparing a literature review or journal submission.
+- **Academics** who want to verify that every citation in their AI-assisted draft links to a real paper.
+- **Developers** who want to build custom research tools on top of an open-source academic writing engine.
 
 ---
 
@@ -402,6 +441,34 @@ opendraft/
 ├── requirements.txt          # Python dependencies
 └── README.md
 ```
+
+---
+
+## People Also Ask
+
+### Is OpenDraft free?
+**Yes.** OpenDraft is 100% free and open source under the MIT license. You can self-host it with your own API keys (a typical thesis costs ~$0.35–$3 in API fees). There is also a free hosted version at [OpenPaper.dev](https://openpaper.dev) with 3 papers per day and no credit card required.
+
+### Is OpenDraft better than ChatGPT for writing a thesis?
+**Yes, for research drafts.** ChatGPT frequently hallucinates citations and cannot produce documents longer than a few thousand words. OpenDraft generates 20,000+ word theses with every citation verified against real academic databases.
+
+### Can OpenDraft write a full PhD dissertation?
+**OpenDraft can generate a complete first draft** of a PhD dissertation (100+ pages) in 10–20 minutes. However, it is a drafting assistant, not an autonomous author. You must review, edit, and add your own analysis before submission.
+
+### Does OpenDraft make up citations?
+**No.** OpenDraft verifies every citation against CrossRef, OpenAlex, Semantic Scholar, and arXiv. If a paper does not exist, it is not included in the bibliography.
+
+### What is the difference between OpenDraft and OpenPaper?
+**OpenDraft** is the open-source Python engine you run locally. **OpenPaper** is the hosted SaaS version that runs OpenDraft in the cloud so you can use it in your browser without installing anything.
+
+### How long does it take to generate a thesis with OpenDraft?
+**10–20 minutes** for a full master's thesis (50–80 pages). A shorter research paper takes 5–10 minutes.
+
+### What file formats does OpenDraft export to?
+**PDF, Microsoft Word (.docx), and LaTeX source.**
+
+### Can I use OpenDraft for commercial purposes?
+**Yes.** The MIT license permits commercial use, modification, and distribution without restriction.
 
 ---
 

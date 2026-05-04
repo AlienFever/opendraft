@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/federicodeponte/opendraft/issues"
   },
-  "homepage": "https://opendraft.xyz",
+  "homepage": "https://openpaper.dev",
   "engines": {
     "node": ">=14.0.0"
   }
