@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "opendraft"
-version = "2.1.0"
+version = "1.7.2"
 description = "Open-source AI research draft generator with 19 specialized agents and verified citations"
 readme = "README.md"
 license = {text = "MIT"}
@@ -48,3 +48,8 @@ Changelog = "https://github.com/federicodeponte/opendraft/blob/master/CHANGELOG.
 [project.optional-dependencies]
 pdf = ["PyPDF2", "pdfplumber"]
 dev = ["pytest", "black", "ruff"]
+
+[tool.setuptools]
+packages = ["engine"]
+package-data = { "engine" = ["prompts/**/*.md", "prompts/**/*.txt"] }
+include-package-data = true

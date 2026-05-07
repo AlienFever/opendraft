@@ -9,7 +9,7 @@
 
 <p align="center">
   <b>Free, open-source AI engine that generates thesis-level research drafts with <em>verified</em> citations.</b><br>
-  19 specialized agents · 500M+ academic sources · PDF/DOCX/LaTeX export
+  19 specialized agents · CrossRef, OpenAlex, Semantic Scholar, arXiv · PDF/DOCX/LaTeX export
 </p>
 
 <p align="center">
@@ -33,7 +33,7 @@
 | **What it is** | Open-source Python engine for AI-generated research drafts with verified citations |
 | **Best for** | Master's theses, PhD dissertations, literature reviews, research papers |
 | **Agents** | 19 specialized AI agents (research, structure, writing, citation, polish, export) |
-| **Sources** | 500M+ papers via CrossRef, OpenAlex, Semantic Scholar, arXiv |
+| **Sources** | CrossRef, OpenAlex, Semantic Scholar (200M+), arXiv |
 | **Languages** | 57+ languages including English, Spanish, German, French, Chinese, Japanese |
 | **Export** | PDF, Microsoft Word (.docx), LaTeX |
 | **Cost** | **Free** (self-hosted, MIT license) or **free tier** at [OpenPaper.dev](https://openpaper.dev) (3 papers/day) |
@@ -85,7 +85,7 @@ Unlike general-purpose chatbots such as ChatGPT, OpenDraft does not hallucinate 
 Not ready to self-host? **OpenPaper.dev** is the free, hosted version of OpenDraft:
 
 - ✅ **3 research papers per day** on the free plan
-- ✅ Access to **500M+ academic sources**
+- ✅ Searches CrossRef, OpenAlex, Semantic Scholar, and arXiv
 - ✅ **PDF + DOCX export**
 - ✅ No credit card required
 - ✅ Upgrade to Pro ($9/mo) or Max ($25/mo) for more daily credits
@@ -143,7 +143,7 @@ It is a research assistance and drafting tool, not an autonomous author.
 |----------|---------|-----------|
 | Does it hallucinate citations? | Yes (often) | **Verified against real databases** |
 | Can it write 20,000+ words? | No (hits limits) | **Yes** |
-| Does it search real papers? | No | **Yes (500M+ papers)** |
+| Does it search real papers? | No | **Yes (CrossRef, OpenAlex, Semantic Scholar, arXiv)** |
 | Thesis structure? | Generic | **Academic chapters & sections** |
 | Export to PDF/Word? | No | **Yes** |
 | Free? | Limited | **100% free (self-host)** |
@@ -159,7 +159,7 @@ It is a research assistance and drafting tool, not an autonomous author.
 OpenDraft uses **19 specialized AI agents** that work like a research team:
 
 ```
-📚 RESEARCH PHASE    → Finds relevant papers from 500M+ sources
+📚 RESEARCH PHASE    → Finds relevant papers from CrossRef, OpenAlex, Semantic Scholar, arXiv
 🏗️ STRUCTURE PHASE   → Creates thesis outline with chapters
 ✍️ WRITING PHASE     → Drafts each section with academic tone
 🔍 CITATION PHASE    → Verifies every source exists (CrossRef, arXiv)
