@@ -24,19 +24,21 @@ Unlike general-purpose LLMs that hallucinate citations 30–50% of the time, Ope
 
 ## 2. How We Use (or Plan to Use) OpenAI Models
 
-OpenDraft already supports OpenAI GPT-5.5 models as one of several providers. We use OpenAI models for:
+OpenDraft has provider-agnostic agent architecture. Current primary development is on Google Gemini (2.5 Pro / 3 Flash), with active OpenAI support via GPT-4.1 and GPT-4o. We use OpenAI models today for:
 
 | Use Case | Current Status |
 |----------|---------------|
-| Research agent (literature discovery) | ✅ Active |
-| Outline agent (chapter/section structure) | ✅ Active |
-| Writing agent (section drafting) | ✅ Active |
-| Citation verification cross-check | ✅ Active |
-| Polish agent (language refinement) | ✅ Active |
-| **PR review automation** | 🔄 Planned (Codex) |
-| **Regression test generation** | 🔄 Planned (Codex) |
-| **Issue triage & labeling** | 🔄 Planned (Codex) |
-| **Contributor onboarding templates** | 🔄 Planned (Codex) |
+| Research agent (literature discovery) | ✅ Active — GPT-4.1 for query expansion |
+| Outline agent (chapter/section structure) | ✅ Active — GPT-4o for long-context planning |
+| Writing agent (section drafting) | ✅ Active — GPT-4.1 for section generation |
+| Citation verification cross-check | ✅ Active — o3-mini for structured verification |
+| Polish agent (language refinement) | ✅ Active — GPT-4o for style refinement |
+| **PR review automation** | 🔄 Planned (Codex CLI) |
+| **Regression test generation** | 🔄 Planned (Codex CLI) |
+| **Issue triage & labeling** | 🔄 Planned (Codex CLI) |
+| **Contributor onboarding templates** | 🔄 Planned (Codex CLI) |
+
+**Why Codex specifically:** OpenDraft's 19-agent pipeline is written in Python with heavy prompt engineering (40+ prompt templates). Codex is ideal for reviewing prompt changes, generating test coverage for agent orchestration, and maintaining the evaluation harness — tasks that require deep code context, not just chat.
 
 ---
 
@@ -48,14 +50,16 @@ We would use the API credits and Codex access to improve OpenDraft **as an open-
 
 **Problem:** Every code change to the 19-agent pipeline risks degrading citation accuracy or draft quality.
 
-**Solution:** Build automated evaluation runs using OpenAI models as a reference benchmark.
+**Current evidence:** We already have 40+ test files covering citation validation, fact-checking, quality gating, output cleanliness, and live API integration. What we lack is automated *end-to-end* regression: generating full drafts before/after each PR and comparing metrics.
 
-- Generate 20 fixed-topic drafts before/after each PR
+**What we will build with grant support:**
+
+- Generate 10 fixed-topic drafts before/after each significant PR
 - Compare: verified citation rate, source coverage, hallucination rate, draft coherence
 - Fail CI if any metric degrades >10%
 - Publish results in [EVALUATION.md](EVALUATION.md)
 
-**Credits needed:** ~500 eval runs/month = ~$150/month
+**Credits needed:** ~200 eval runs/month across 3 providers = ~$400–600/month (OpenAI models are our most expensive benchmark; the grant would let us include them as a first-class reference instead of excluding them for cost reasons).
 
 ### 3.2 Codex-Assisted Maintainer Workflows
 
@@ -84,26 +88,38 @@ We would use the API credits and Codex access to improve OpenDraft **as an open-
 
 **Solution:** Use credits to generate and host public examples with full agent logs.
 
-- 50+ reproducible research topics with complete agent traces
+- 20+ reproducible research topics with complete agent traces
 - Side-by-side comparison of OpenAI vs Gemini vs Claude outputs
 - Public benchmark dashboard showing citation accuracy per provider
 
 ---
 
-## 4. Why OpenDraft Fits the Fund
+## 4. Honest Assessment: Where We Are Today
+
+We are not claiming OpenDraft is perfect. Here is what works, what doesn't, and what the grant would specifically unlock:
+
+| Area | Current State | What Grant Enables |
+|------|--------------|-------------------|
+| Citation verification | ~85% verified against real databases | Funding for larger eval samples to push to >90% |
+| OpenAI model support | Functional (GPT-4.1, GPT-4o, o3-mini); less optimized than Gemini | Systematic benchmarking and prompt tuning for OpenAI models |
+| Eval infrastructure | 40+ unit/integration tests; no automated end-to-end regression | Full eval pipeline with OpenAI as reference benchmark |
+| Maintainer bandwidth | Solo maintainer + occasional contributors | Codex-assisted PR review and test generation to scale |
+| Public examples | 3 fully-verified example drafts | 20+ reproducible topics with side-by-side model comparisons |
+
+## 5. Why OpenDraft Fits the Fund
 
 | OpenAI Criterion | OpenDraft Evidence |
 |------------------|-------------------|
 | Public open-source repo | ✅ MIT license, 128 stars, active issues/PRs |
 | Real maintainer | ✅ Solo maintainer + 4 contributors, visible commit history |
-| Uses AI models | ✅ Supports Gemini, Claude, OpenAI GPT-5.5 |
+| Uses AI models | ✅ Supports Gemini, Claude, OpenAI GPT-4.1 / o3 |
 | OSS maintainer use case | ✅ Codex for PR review, tests, triage, release workflows |
 | Public impact | ✅ Academic researchers, citation verification, transparent pipeline |
 | Human review boundary | ✅ "What OpenDraft is NOT" section; not an autonomous author |
 
 ---
 
-## 5. Project Links
+## 6. Project Links
 
 - **Repository:** https://github.com/federicodeponte/opendraft
 - **Hosted version:** https://openpaper.dev
@@ -114,7 +130,7 @@ We would use the API credits and Codex access to improve OpenDraft **as an open-
 
 ---
 
-## 6. Maintainer Contact
+## 7. Maintainer Contact
 
 - **Name:** Federico De Ponte
 - **Email:** depontefede@gmail.com

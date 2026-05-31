@@ -71,8 +71,8 @@ OpenDraft is an open-source research drafting engine with 19 specialized agents.
 **Providers tested:**
 - Google Gemini 3 Flash
 - Google Gemini 3 Pro
-- OpenAI GPT-5.5
-- Anthropic Claude Sonnet 4.5
+- OpenAI GPT-4.1 / o3
+- Anthropic Claude Sonnet
 
 **Metrics:**
 - Citation verification rate

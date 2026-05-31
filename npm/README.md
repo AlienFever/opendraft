@@ -58,8 +58,8 @@ pip install opendraft
 
 ## Links
 
-- Website: https://opendraft.xyz
-- Documentation: https://opendraft.xyz/docs
+- Website: https://openpaper.dev
+- Documentation: https://github.com/federicodeponte/opendraft
 - GitHub: https://github.com/federicodeponte/opendraft
 - Issues: https://github.com/federicodeponte/opendraft/issues
 
