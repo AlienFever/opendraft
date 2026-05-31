@@ -49,7 +49,7 @@ Which existing agents or features would this interact with?
 Describe alternative solutions or features you've considered.
 
 ## Implementation Considerations
-- **LLM Requirements:** Would this need a specific model (GPT-4.1, Claude Sonnet, Gemini Pro)?
+- **LLM Requirements:** Would this need a specific model (GPT-5, Claude, Gemini Pro)?
 - **API Integration:** Does this require new external APIs?
 - **Performance Impact:** Would this significantly increase generation time or cost?
 - **Testing:** How would we validate this feature works correctly?

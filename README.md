@@ -432,11 +432,11 @@ See `engine/README.md` for detailed API documentation.
 |-------|-------|---------|------------|----------|
 | **Gemini 3 Flash** | ⚡ Fast | Good | ~$0.35 | Most users |
 | Gemini 3 Pro | Medium | Excellent | ~$1.40 | Important papers |
-| GPT-4.1 | Medium | Excellent | ~$1.60 | OpenAI users |
-| Claude Sonnet | Medium | Excellent | ~$1.80 | Nuanced writing |
-| Claude Opus | Slow | Best | ~$3.00 | Maximum quality |
+| GPT-5.2 | Medium | Excellent | ~$1.60 | OpenAI users |
+| Claude Sonnet 4.5 | Medium | Excellent | ~$1.80 | Nuanced writing |
+| Claude Opus 4.5 | Slow | Best | ~$3.00 | Maximum quality |
 
-**Recommendation:** Start with Gemini 3 Flash for most use cases. Use Gemini 3 Pro or Claude Sonnet for important papers.
+**Recommendation:** Start with Gemini 3 Flash for most use cases. Use Gemini 3 Pro or Claude Sonnet 4.5 for important papers.
 
 ---
 
@@ -542,7 +542,7 @@ Most AI tools use a single model. OpenDraft uses **19 specialized agents**—one
 ## Tech Stack
 
 - **Engine:** Python 3.10+, multi-agent orchestration
-- **Models:** Google Gemini 3, Anthropic Claude Opus / Sonnet, OpenAI GPT-4.1 / GPT-4o / o3
+- **Models:** Google Gemini 3, Anthropic Claude Sonnet 4.5 / Opus 4.5, OpenAI GPT-5.5 / GPT-5
 - **Citations:** CrossRef API, OpenAlex API, Semantic Scholar API, arXiv API
 - **Export:** WeasyPrint (PDF), python-docx (Word)
 
