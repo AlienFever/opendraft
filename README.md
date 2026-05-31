@@ -8,8 +8,13 @@
 </p>
 
 <p align="center">
-  <b>Free, open-source AI engine that generates thesis-level research drafts with <em>verified</em> citations.</b><br>
+  <b>Free, open-source AI engine that generates source-grounded research drafts with <em>verified</em> citations.</b><br>
   19 specialized agents · CrossRef, OpenAlex, Semantic Scholar, arXiv · PDF/DOCX/LaTeX export
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Human%20Review-Required-orange.svg" alt="Human Review Required">
+  <img src="https://img.shields.io/badge/Citations-Verified-blue.svg" alt="Verified Citations">
 </p>
 
 <p align="center">
@@ -31,7 +36,7 @@
 | | |
 |:---|:---|
 | **What it is** | Open-source Python engine for AI-generated research drafts with verified citations |
-| **Best for** | Master's theses, PhD dissertations, literature reviews, research papers |
+| **Best for** | Literature reviews, research papers, thesis drafts, reproducible research workflows |
 | **Agents** | 19 specialized AI agents (research, structure, writing, citation, polish, export) |
 | **Sources** | CrossRef, OpenAlex, Semantic Scholar (200M+), arXiv |
 | **Languages** | 57+ languages including English, Spanish, German, French, Chinese, Japanese |
@@ -49,6 +54,7 @@
 - [What is OpenDraft?](#what-is-opendraft)
 - [Try it free — no installation](#try-it-free--no-installation)
 - [Why OpenDraft Exists](#why-opendraft-exists)
+- [OpenDraft for Open Source Maintainers](#opendraft-for-open-source-maintainers)
 - [What OpenDraft is NOT](#what-opendraft-is-not)
 - [OpenDraft vs ChatGPT](#opendraft-vs-chatgpt)
 - [How It Works](#how-it-works)
@@ -77,6 +83,22 @@ Unlike general-purpose chatbots such as ChatGPT, OpenDraft does not hallucinate 
 - **Price:** 100% free and open source (MIT license).
 - **Setup time:** 10 minutes for local installation.
 - **SaaS version:** [OpenPaper.dev](https://openpaper.dev) — run it in your browser, 3 free papers/day.
+
+---
+
+## OpenDraft for Open Source Maintainers
+
+OpenDraft is not just a drafting tool — it is a **reproducible research-agent pipeline** that open-source maintainers can extend, audit, and improve.
+
+We use Codex and OpenAI models to maintain OpenDraft itself:
+
+- **Automated PR review** — Codex reviews contributor changes for agent logic, prompt quality, and citation handling
+- **Regression test generation** — AI-assisted tests for citation accuracy, source coverage, and draft coherence
+- **Issue triage** — Codex suggests labels, duplicates, and fixes for bug reports
+- **Release workflow automation** — Automated changelogs, version bumps, and eval runs before each release
+- **Contributor templates** — Codex-assisted onboarding for adding new agents, validators, and export formats
+
+See [EVALUATION.md](EVALUATION.md) for the benchmark plan and [CONTRIBUTING.md](CONTRIBUTING.md) for maintainer guidelines.
 
 ---
 
@@ -116,11 +138,11 @@ We open-sourced OpenDraft so researchers can inspect, critique, and improve how 
 
 ### Who Is OpenDraft For?
 
-- **Graduate students** writing a master's thesis or PhD dissertation who need a structured first draft.
-- **Undergraduate students** working on a bachelor's thesis or capstone project.
-- **Researchers** preparing a literature review or journal submission.
+- **Researchers** preparing literature reviews, journal submissions, or structured first drafts.
+- **Open-source maintainers** building tools on top of a reproducible research-drafting pipeline.
+- **Graduate students** working on a master's thesis or PhD dissertation.
 - **Academics** who want to verify that every citation in their AI-assisted draft links to a real paper.
-- **Developers** who want to build custom research tools on top of an open-source academic writing engine.
+- **Developers** extending the agent pipeline for custom research workflows, citation validators, and export formats.
 
 ---
 
