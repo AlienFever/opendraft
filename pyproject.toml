@@ -49,7 +49,9 @@ Changelog = "https://github.com/federicodeponte/opendraft/blob/master/CHANGELOG.
 pdf = ["PyPDF2", "pdfplumber"]
 dev = ["pytest", "black", "ruff"]
 
-[tool.setuptools]
-packages = ["engine"]
-package-data = { "engine" = ["prompts/**/*.md", "prompts/**/*.txt"] }
-include-package-data = true
+[tool.setuptools.packages.find]
+include = ["engine*"]
+namespaces = false
+
+[tool.setuptools.package-data]
+engine = ["prompts/**/*.md", "prompts/**/*.txt"]
