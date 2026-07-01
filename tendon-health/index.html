@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Tendon Isometrics</title>
+<meta name="description" content="Personal isometric exercise guide for tendon health." />
+<meta name="theme-color" content="#0f172a" />
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" href="icon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="app-header">
+  <div class="header-inner">
+    <img src="icon.svg" alt="" class="logo" />
+    <div>
+      <h1>Tendon Isometrics</h1>
+      <p class="subtitle">Personal isometric exercise guide for tendon health</p>
+    </div>
+  </div>
+  <div class="progress-bar" id="progress-summary" aria-live="polite"></div>
+</header>
+
+<main>
+  <nav class="filters" id="filters" aria-label="Filter by body region"></nav>
+
+  <p class="disclaimer">
+    Not medical advice. General starting protocols only — stop or back off any hold that pushes pain
+    past a mild, tolerable level, and check with a physio/doctor before starting a new program,
+    especially for an acute or worsening injury.
+  </p>
+
+  <section id="exercise-grid" class="exercise-grid"></section>
+</main>
+
+<footer class="app-footer">
+  <p>Built for personal use. Video demonstrations are embedded from their original YouTube sources — full credit to those creators.</p>
+</footer>
+
+<template id="exercise-card-template">
+  <article class="card">
+    <div class="video-wrap">
+      <iframe loading="lazy" src="" title="" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="card-body">
+      <h3 class="ex-name"></h3>
+      <span class="target-badge"></span>
+      <p class="protocol"></p>
+      <ol class="steps"></ol>
+      <div class="secondary-links"></div>
+      <label class="done-toggle">
+        <input type="checkbox" class="done-checkbox" />
+        <span class="done-label">Mark done today</span>
+      </label>
+      <p class="last-done"></p>
+    </div>
+  </article>
+</template>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
