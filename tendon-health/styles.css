@@ -1,0 +1,201 @@
+:root {
+  --bg: #f4f6fb;
+  --bg-elevated: #ffffff;
+  --card-bg: #ffffff;
+  --text: #101828;
+  --text-dim: #5b6478;
+  --accent: #0f9488;
+  --accent-dark: #0c7a70;
+  --accent-contrast: #ffffff;
+  --border: #e1e5f0;
+  --danger: #dc2626;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  padding-bottom: 2rem;
+}
+
+.app-header {
+  background: var(--bg-elevated);
+  padding: 1rem 1rem 0.75rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.04);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.logo { width: 40px; height: 40px; flex-shrink: 0; }
+
+h1 { margin: 0; font-size: 1.3rem; }
+
+.subtitle { margin: 0.1rem 0 0; font-size: 0.85rem; color: var(--text-dim); }
+
+.progress-bar {
+  max-width: 1000px;
+  margin: 0.6rem auto 0;
+  font-size: 0.85rem;
+  color: var(--accent);
+}
+
+.filters {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 1rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.filter-btn {
+  flex: 0 0 auto;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.filter-btn.active {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.disclaimer {
+  max-width: 1000px;
+  margin: 0 auto 1rem;
+  padding: 0 1rem;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+.exercise-grid {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+.region-heading {
+  grid-column: 1 / -1;
+  margin: 1.5rem 0 0;
+  font-size: 1.05rem;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.4rem;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+}
+
+.video-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  background: #000;
+}
+
+.video-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.card-body { padding: 0.9rem 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+
+.ex-name { margin: 0; font-size: 1.05rem; }
+
+.target-badge {
+  display: inline-block;
+  align-self: flex-start;
+  background: rgba(15, 148, 136, 0.1);
+  color: var(--accent);
+  border: 1px solid rgba(15, 148, 136, 0.35);
+  font-size: 0.72rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+}
+
+.protocol { margin: 0; font-size: 0.85rem; color: var(--text-dim); font-style: italic; }
+
+.steps {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.steps li { margin-bottom: 0.25rem; }
+
+.watch-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  width: fit-content;
+}
+.watch-link:hover { text-decoration: underline; }
+
+.secondary-links { font-size: 0.8rem; }
+.secondary-links a { color: var(--accent); }
+
+.done-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.done-checkbox { width: 18px; height: 18px; accent-color: var(--accent); }
+
+.last-done { margin: 0; font-size: 0.75rem; color: var(--text-dim); }
+
+.app-footer {
+  max-width: 1000px;
+  margin: 2rem auto 0;
+  padding: 0 1rem;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 1.1rem; }
+  .card-body { padding: 0.75rem 0.85rem 1rem; }
+}
