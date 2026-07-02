@@ -58,6 +58,51 @@ const REGIONS = [
           "Hold the position, letting the band support you so quads work isometrically without extra knee-joint compression.",
           "Push back up to standing to finish the hold."
         ]
+      },
+      {
+        id: "wall-sit-60",
+        name: "Wall Sit (60° Knee Angle)",
+        target: "Patellar / quadriceps tendon",
+        videoId: "-RiJYAJmA48",
+        secondary: [],
+        protocol: "5 x 45s holds, 2-3x/day. Use the 60-degree knee angle rather than a deep 90-degree sit.",
+        steps: [
+          "Stand with your back flat against a wall, feet shoulder-width apart and out from the wall.",
+          "Slide down until your knees are bent to roughly 60 degrees (a shallower sit than a classic 90-degree wall sit).",
+          "Keep weight even through both feet and your lower back flat against the wall.",
+          "Hold the position, breathing normally, at an effort that keeps pain tolerable.",
+          "Slide back up slowly and rest between holds."
+        ]
+      },
+      {
+        id: "isometric-leg-extension",
+        name: "Isometric Leg Extension (Rio Protocol)",
+        target: "Patellar tendon",
+        videoId: "QhrJy75FwZA",
+        secondary: [],
+        protocol: "5 x 45s holds at ~70-80% effort, 60° knee flexion, up to 4x/day during a flare-up.",
+        steps: [
+          "Sit in a leg extension machine (or loop a band around a fixed point and your ankle) with the knee bent to about 60 degrees.",
+          "Push against the pad/band to straighten the knee without actually letting it move — a true isometric hold.",
+          "Build to a strong, near-maximal effort (roughly 70-80%) rather than a light contraction.",
+          "Hold steady, keeping the rest of your body relaxed and braced through the seat/handles.",
+          "Release slowly and rest 60-90s between holds."
+        ]
+      },
+      {
+        id: "isometric-split-squat",
+        name: "Isometric Split Squat Hold",
+        target: "Patellar / quadriceps tendon",
+        videoId: "JDtJ36Y0xDY",
+        secondary: ["kw39_YLz5vw"],
+        protocol: "3-5 x 30-45s holds per leg, 1-2x/day.",
+        steps: [
+          "Step into a staggered split-squat stance, front foot flat, back heel lifted.",
+          "Lower into the split squat until the front knee is bent to a comfortable, pain-tolerable angle (avoid going so deep it spikes pain).",
+          "Hold the position, keeping the front knee tracking over the foot and torso upright.",
+          "Keep even, steady tension through the front leg for the full hold.",
+          "Push back up to the start and switch legs."
+        ]
       }
     ]
   },

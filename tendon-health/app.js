@@ -73,7 +73,7 @@
   function buildCard(exercise, log) {
     const node = template.content.cloneNode(true);
     const iframe = node.querySelector("iframe");
-    iframe.src = `https://www.youtube.com/embed/${exercise.videoId}`;
+    iframe.src = `https://www.youtube-nocookie.com/embed/${exercise.videoId}`;
     iframe.title = exercise.name;
 
     node.querySelector(".ex-name").textContent = exercise.name;
